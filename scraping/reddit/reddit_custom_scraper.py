@@ -31,6 +31,18 @@ class RedditCustomScraper(Scraper):
     """
     Scrapes Reddit data using a personal reddit account.
     """
+    def __init__(
+        self,
+        client_id: str = os.getenv("REDDIT_CLIENT_ID"),
+        client_secret: str = os.getenv("REDDIT_CLIENT_SECRET"),
+        username: str = os.getenv("REDDIT_USERNAME"),
+        password: str = os.getenv("REDDIT_PASSWORD"),
+    ) -> None:
+        super().__init__()
+        self.REDDIT_CLIENT_ID=client_id
+        self.REDDIT_CLIENT_SECRET=client_secret
+        self.REDDIT_USERNAME=username
+        self.REDDIT_PASSWORD=password
 
     USER_AGENT = f"User-Agent: python: {os.getenv('REDDIT_USERNAME')}"
 
@@ -160,10 +172,10 @@ class RedditCustomScraper(Scraper):
         contents = None
         try:
             async with asyncpraw.Reddit(
-                client_id=os.getenv("REDDIT_CLIENT_ID"),
-                client_secret=os.getenv("REDDIT_CLIENT_SECRET"),
-                username=os.getenv("REDDIT_USERNAME"),
-                password=os.getenv("REDDIT_PASSWORD"),
+                client_id=self.REDDIT_CLIENT_ID,
+                client_secret=self.REDDIT_CLIENT_SECRET,
+                username=self.REDDIT_USERNAME,
+                password=self.REDDIT_PASSWORD,
                 user_agent=RedditCustomScraper.USER_AGENT,
             ) as reddit:
                 subreddit = await reddit.subreddit(subreddit_name)
